@@ -36,7 +36,14 @@ export default function TodoList() {
 	}
 
 	const removeTodo = (id: string) => {
-		setTodos(todos.filter(todo => todo.id !== id))
+		const todosLeft = todos.filter(todo => todo.id !== id)
+
+		setTodos(todosLeft)
+
+		if (todosLeft.length === 0) {
+			// remoção forçada pois em caso de estar vazio, o useEffect não deixa mudar o localStorage
+			localStorage.removeItem('todos')
+		}
 	}
 
 	useEffect(() => {
