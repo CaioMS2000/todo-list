@@ -77,7 +77,7 @@ export default function TodoList() {
 						Adicionar
 					</Button>
 				</div>
-				<ul id="todo-list" className="max-h-[600px] space-y-2 overflow-y-auto">
+				<ul id="todo-list" className="max-h-[70vh] space-y-2 overflow-y-auto">
 					{todos.map(todo => (
 						<li
 							key={todo.id}
