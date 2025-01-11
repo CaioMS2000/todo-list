@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -12,15 +12,18 @@ interface Todo {
 
 export default function TodoList() {
 	const [todos, setTodos] = useState<Todo[]>([])
-	const [newTodo, setNewTodo] = useState('')
+	const [inputValue, setInputValue] = useState('')
 
 	const addTodo = () => {
-		if (newTodo.trim() !== '') {
-			setTodos([
-				...todos,
-				{ id: crypto.randomUUID().toString(), text: newTodo, completed: false },
-			])
-			setNewTodo('')
+		if (inputValue.trim() !== '') {
+			const newTodoItem: Todo = {
+				id: crypto.randomUUID().toString(),
+				text: inputValue,
+				completed: false,
+			}
+
+			setTodos([...todos, newTodoItem])
+			setInputValue('')
 		}
 	}
 
@@ -36,6 +39,20 @@ export default function TodoList() {
 		setTodos(todos.filter(todo => todo.id !== id))
 	}
 
+	useEffect(() => {
+		if (todos.length > 0) {
+			localStorage.setItem('todos', JSON.stringify(todos))
+		}
+	}, [todos])
+
+	useEffect(() => {
+		const storedTodos = localStorage.getItem('todos')
+
+		if (storedTodos) {
+			setTodos(JSON.parse(storedTodos))
+		}
+	}, [])
+
 	return (
 		<div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center">
 			<div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-xl">
@@ -44,8 +61,8 @@ export default function TodoList() {
 					<Input
 						type="text"
 						placeholder="Adicionar nova tarefa"
-						value={newTodo}
-						onChange={e => setNewTodo(e.target.value)}
+						value={inputValue}
+						onChange={e => setInputValue(e.target.value)}
 						className="flex-grow mr-2 bg-gray-700 text-gray-100 border-gray-600"
 						onKeyPress={e => e.key === 'Enter' && addTodo()}
 					/>
