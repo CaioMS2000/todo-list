@@ -61,16 +61,16 @@ export default function TodoList() {
 	}, [])
 
 	return (
-		<div className="min-h-screen bg-gray-900 text-gray-100 flex items-center justify-center">
-			<div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-xl">
-				<h1 className="text-2xl font-bold mb-4 text-center">Lista de Tarefas</h1>
-				<div className="flex mb-4">
+		<div className="flex min-h-screen items-center justify-center bg-gray-900 text-gray-100">
+			<div className="w-full max-w-md rounded-lg bg-gray-800 p-6 shadow-xl">
+				<h1 className="mb-4 text-center font-bold text-2xl">Lista de Tarefas</h1>
+				<div className="mb-4 flex">
 					<Input
 						type="text"
 						placeholder="Adicionar nova tarefa"
 						value={inputValue}
 						onChange={e => setInputValue(e.target.value)}
-						className="flex-grow mr-2 bg-gray-700 text-gray-100 border-gray-600"
+						className="mr-2 flex-grow border-gray-600 bg-gray-700 text-gray-100"
 						onKeyPress={e => e.key === 'Enter' && addTodo()}
 					/>
 					<Button onClick={addTodo} className="bg-blue-600 hover:bg-blue-700">
@@ -81,7 +81,7 @@ export default function TodoList() {
 					{todos.map(todo => (
 						<li
 							key={todo.id}
-							className="flex items-center bg-gray-700 p-3 rounded-lg"
+							className="flex items-center rounded-lg bg-gray-700 p-3"
 						>
 							<Checkbox
 								checked={todo.completed}
@@ -89,7 +89,7 @@ export default function TodoList() {
 								className="mr-2"
 							/>
 							<span
-								className={`flex-grow ${todo.completed ? 'line-through text-gray-400' : ''}`}
+								className={`flex-grow ${todo.completed ? 'text-gray-400 line-through' : ''}`}
 							>
 								{todo.text}
 							</span>
